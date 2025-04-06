@@ -1,0 +1,14 @@
+services:
+  mongodb:
+    image: mongo:latest
+    container_name: mongodb_booking_app
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: root
+      MONGO_INITDB_DATABASE: mongo_nestjs
+    command:
+      - "--logpath"
+      - "/var/log/mongodb/mongod.log"
+    ports:
+      - 27019:27017
+    
