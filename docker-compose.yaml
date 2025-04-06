@@ -5,10 +5,11 @@ services:
     environment:
       MONGO_INITDB_ROOT_USERNAME: root
       MONGO_INITDB_ROOT_PASSWORD: root
-      MONGO_INITDB_DATABASE: mongo_nestjs
-    command:
-      - "--logpath"
-      - "/var/log/mongodb/mongod.log"
+      MONGO_INITDB_DATABASE: booking_app
+    volumes:
+      - mongo_logs:/var/log/mongodb
     ports:
       - 27019:27017
     
+volumes:
+  mongo_logs:
