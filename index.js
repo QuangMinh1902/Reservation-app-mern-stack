@@ -1,8 +1,13 @@
 import express from "express";
 import dotenv from "dotenv";
 import mongoose from "mongoose";
+import authRoutes from "./api/routes/auth.js";
+import userRoutes from "./api/routes/users.js";
+import hotelRoutes from "./api/routes/hotels.js";
+import roomRoutes from "./api/routes/rooms.js"; 
 
 const app = express();
+app.use(express.json());
 dotenv.config();
 
 const connectDB = async () => {
@@ -13,6 +18,12 @@ const connectDB = async () => {
   }
 };
 
+// Middlewares
+app.use("/api/auth", authRoutes);
+app.use("/api/users", userRoutes);
+app.use("/api/hotels", hotelRoutes);
+app.use("/api/rooms", roomRoutes);
+
 mongoose.connection.on("disconnected", () => {
   console.log("Disconnected from MongoDB");
 });
@@ -21,9 +32,6 @@ mongoose.connection.on("connected", () => {
   console.log("Connected to MongoDB");
 });
 
-app.get("/", (req, res) => {
-  res.json({ message: "Hello World" });
-});
 
 app.listen(8800, () => {
   connectDB();
