@@ -18,6 +18,11 @@ const connectDB = async () => {
   }
 };
 
+app.use((req,res,next)=> {
+  console.log("index.js middleware")
+  next()
+})
+
 // Middlewares
 app.use("/api/auth", authRoutes);
 app.use("/api/users", userRoutes);
@@ -32,8 +37,14 @@ mongoose.connection.on("connected", () => {
   console.log("Connected to MongoDB");
 });
 
+app.use((error,req, res, next) => {
+  res.status(error.statusCode).json({
+    message: error.message,
+  });
+})
 
 app.listen(8800, () => {
   connectDB();
+  console.log("Server booting up 🚀")
   console.log("Server is running on port 8800");
 });
