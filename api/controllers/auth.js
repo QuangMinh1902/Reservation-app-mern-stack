@@ -38,12 +38,11 @@ export const login = async (req, res, next) => {
     process.env.JWT_SECRET
   );
   const { password, isAdmin, ...userDetails } = user._doc;
-  // console.log({userDetails});
-  res 
+  res
     .cookie("access_token", token, {
       httpOnly: true,
+      maxAge: 24 * 60 * 60 * 1000,
     })
     .status(200)
     .json(userDetails);
-
 };

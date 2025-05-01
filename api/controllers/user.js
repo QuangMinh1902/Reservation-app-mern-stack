@@ -1,41 +1,50 @@
-import {createError} from "../../utils/create-error.js";
-import Hotel from "../models/Hotel.js";
+import { createError } from "../../utils/create-error.js";
+import User from "../models/User.js";
 
-export const createHotel =  async (req, res) => {
+export const createUser = async (req, res) => {
   try {
-    await Hotel.create(req.body);
-    res.status(201).json("Hotel created successfully");
+    await User.create(req.body);
+    res.status(201).json("User created successfully");
   } catch (error) {
     res.status(500).json(error);
   }
-}
+};
 
-export const deleteHotel = async (req, res) => {
+export const deleteUser = async (req, res) => {
   try {
-    await Hotel.deleteOne({ _id: req.params.id });
-    res.status(201).json("Hotel deleted successfully");
+    await User.deleteOne({ _id: req.params.id });
+    res.status(201).json("User deleted successfully");
   } catch (error) {
     res.status(500).json(error);
   }
-}
+};
 
-export const getHotel = async (req, res, next) => {
+export const getUser = async (req, res, next) => {
   try {
-    const hotel = await Hotel.findById(req.params.id);
-    if (!hotel) {
-      return res.status(404).json("Hotel not found");
+    const user = await User.findById(req.params.id);
+    if (!user) {
+      return res.status(404).json("User not found");
     }
-    res.status(200).json(hotel);
+    res.status(200).json(user);
   } catch (error) {
-    next(createError( "Erroorr..... Error", 500));
+    next(createError("User not found", 404));
   }
-}
+};
 
-export const updateHotel=  async (req, res) => {
-    try {
-      await Hotel.updateOne({ _id: req.params.id }, { $set: req.body });
-      res.status(200).json("Hotel updated successfully");
-    } catch (error) {
-      res.status(500).json(error);
-    }
+export const getUsers = async (req, res) => {
+  try {
+    const users = await User.find();
+    res.status(200).json(users);
+  } catch (error) {
+    next(createError("Erroorr while retrieving all users", 500));
   }
+};
+
+export const updateUser = async (req, res) => {
+  try {
+    await User.updateOne({ _id: req.params.id }, { $set: req.body }).exec();
+    res.status(200).json("User updated successfully");
+  } catch (error) {
+    res.status(500).json(error);
+  }
+};
