@@ -5,9 +5,11 @@ import authRoutes from "./api/routes/auth.js";
 import userRoutes from "./api/routes/users.js";
 import hotelRoutes from "./api/routes/hotels.js";
 import roomRoutes from "./api/routes/rooms.js"; 
+import cookieParser from "cookie-parser";
 
 const app = express();
 app.use(express.json());
+app.use(cookieParser())
 dotenv.config();
 
 const connectDB = async () => {
@@ -38,9 +40,10 @@ mongoose.connection.on("connected", () => {
 });
 
 app.use((error,req, res, next) => {
-  res.status(error.statusCode).json({
-    message: error.message,
-  });
+  const status = error.statusCode || 500;
+  const message = error.message || "Something went wrong";
+
+  res.status(status).json({ message });
 })
 
 app.listen(8800, () => {
