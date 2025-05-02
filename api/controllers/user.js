@@ -1,4 +1,4 @@
-import { createError } from "../../utils/create-error.js";
+import { createError } from "../utils/create-error.js";
 import User from "../models/User.js";
 
 export const createUser = async (req, res) => {
